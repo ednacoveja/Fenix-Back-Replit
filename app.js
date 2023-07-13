@@ -7,8 +7,8 @@ podamos hacer esto:
 import express from "express"
 import morgan from "morgan"
 import cors from "cors"
-import routes from "./routes/index.js"
 import products from "./routes/products.js"
+import users from "./routes/users.js"
 
 
 const app = express()
@@ -16,8 +16,8 @@ const app = express()
 app.use(cors())
 app.use(morgan("dev"))
 app.use(express.json())
-app.use(routes)
 app.use(products)
+app.use(users)
 
 
 export default app

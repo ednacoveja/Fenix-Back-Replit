@@ -9,7 +9,7 @@ export const getProducts = async (req, res) => {
     res.json(products)
   }
   catch (error) {
-    return res.satus(500).json({ message: error.message })
+    return res.status(500).json({ message: error.message })
   }
 
 }
@@ -23,32 +23,33 @@ export const getProductId = async (req, res) => {
     return res.json(productId)
   }
   catch (error) {
-    return res.satus(500).json({ message: error.message })
+    return res.status(500).json({ message: error.message })
   }
 
 }
 
 export const createProducts = async (req, res) => {
   try {
-    const { name, description, price } = req.body
+    const { name, description, price,type,rating } = req.body
     const newProduct = new Product({
       name,
       description,
       price,
+      type,
+      rating,
     })
-    if (req.files?.image) {
+    if (req.files) {
       const result = await uploadImage(req.files.image.tempFilePath)
-      newProduct.image = {
-        public_id: result.public_id,
-        secure_url: result.secure_url
-      }
+      newProduct.image = result.secure_url
+      newProduct.urlDelete = result.public_id
+      
       await fs.unlink(req.files.image.tempFilePath)
     }
     await newProduct.save()
     res.json(newProduct)
   }
   catch (error) {
-    return res.satus(500).json({ message: error.message })
+    return res.status(500).json({ message: error.message })
   }
 
 }
@@ -62,7 +63,7 @@ export const updateProducts = async (req, res) => {
     return res.json(productUpdated)
   }
   catch (error) {
-    return res.satus(500).json({ message: error.message })
+    return res.status(500).json({ message: error.message })
   }
 }
 
@@ -74,13 +75,13 @@ export const deleteProducts = async (req, res) => {
     if (!productDelete) return res.satus(404).json({
       message: "Product does not exists"
     })
-    if (productDelete.image?.public_id) {
-      await deleteImage(productDelete.image.public_id)
+    if (productDelete.urlDelete) {
+      await deleteImage(productDelete.urlDelete)
     }
     return res.json(productDelete)
   }
   catch (error) {
-    return res.satus(500).json({ message: error.message })
+    return res.status(500).json({ message: error.message })
   }
 }
 

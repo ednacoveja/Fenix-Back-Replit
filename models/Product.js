@@ -7,6 +7,12 @@ const productSchema = mongoose.Schema({
     trim:true,
     unique:true,
   },
+  type:{
+    type:String,
+  },
+  rating:{
+    type:Number,
+  },
   description:{
     type:String,
     trim:true,
@@ -16,9 +22,11 @@ const productSchema = mongoose.Schema({
     default:0
   },
   image:{
-    public_id:String,
-    secure_url:String
+    type:String,
   },
+  urlDelete:{
+     type:String,
+  }
 },{
   timestamps:true
 })
