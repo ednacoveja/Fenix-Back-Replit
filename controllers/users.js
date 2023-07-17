@@ -17,7 +17,7 @@ export const getUserId = async (req, res) => {
   try {
     const userId = await User.findById(req.params.id)
     if (!userId) return res.satus(404).json({
-      message: "Product does not exists"
+      message: "User does not exists"
     })
     return res.json(userId)
   }
@@ -29,14 +29,14 @@ export const getUserId = async (req, res) => {
 
 export const createUser = async (req, res) => {
   try {
-    const { email, contraseña, nombre,apellido } = req.body
+    const { email, password, firstName, lastName } = req.body
     const newUser = new User({
-      email, 
-      contraseña, 
-      nombre,
-      apellido,
+    email, 
+    password, 
+    firstName, 
+    lastName,
     })
-   
+
     await newUser.save()
     res.json(newUser)
   }
@@ -62,7 +62,7 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const userDelete = await Product.findByIdAndDelete(req.params.id)
+    const userDelete = await User.findByIdAndDelete(req.params.id)
 
     if (!userDelete) return res.satus(404).json({
       message: "User does not exists"

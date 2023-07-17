@@ -1,22 +1,22 @@
 import mongoose from "mongoose"
 
 const productSchema = mongoose.Schema({
-  email:{
-    type:String,
-    required:true,
-    unique:true,
+  email: {
+    type: String,
+    required: true,
+    unique: true,
   },
-  constraseña:{
-    type:String,
+  password: {
+    type: String,
   },
-  nombre:{
-    type:Number,
+  firstName: {
+    type: Number,
   },
-  apellido:{
-    type:String,
+  lastName: {
+    type: String,
   },
-},{
-  timestamps:true
+}, {
+  timestamps: true
 })
 
 export default mongoose.model("User", productSchema)
