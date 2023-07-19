@@ -31,10 +31,10 @@ export const createUser = async (req, res) => {
   try {
     const { email, password, firstName, lastName } = req.body
     const newUser = new User({
-    email, 
-    password, 
-    firstName, 
-    lastName,
+      email,
+      password,
+      firstName,
+      lastName,
     })
 
     await newUser.save()

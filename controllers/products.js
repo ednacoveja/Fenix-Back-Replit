@@ -6,6 +6,7 @@ import fs from "fs-extra"
 export const getProducts = async (req, res) => {
   try {
     const products = await Product.find()
+      .sort({ createdAt: -1 })
     res.json(products)
   }
   catch (error) {
@@ -30,7 +31,7 @@ export const getProductId = async (req, res) => {
 
 export const createProducts = async (req, res) => {
   try {
-    const { name, description, price,type,rating } = req.body
+    const { name, description, price, type, rating } = req.body
     const newProduct = new Product({
       name,
       description,
@@ -42,7 +43,7 @@ export const createProducts = async (req, res) => {
       const result = await uploadImage(req.files.image.tempFilePath)
       newProduct.image = result.secure_url
       newProduct.urlDelete = result.public_id
-      
+
       await fs.unlink(req.files.image.tempFilePath)
     }
     await newProduct.save()

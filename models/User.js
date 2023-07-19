@@ -10,7 +10,7 @@ const productSchema = mongoose.Schema({
     type: String,
   },
   firstName: {
-    type: Number,
+    type: String,
   },
   lastName: {
     type: String,
