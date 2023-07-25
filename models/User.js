@@ -15,6 +15,10 @@ const productSchema = mongoose.Schema({
   lastName: {
     type: String,
   },
+   carrito: {
+    type: Array, 
+    default: [], 
+  },
 }, {
   timestamps: true
 })
