@@ -6,6 +6,9 @@ import {
   updateUser,
   deleteUser
 } from "../controllers/users.js"
+import admin from "firebase-admin"
+
+admin.initializeApp();
 
 
 const router = Router()

@@ -24,6 +24,9 @@ const productSchema = mongoose.Schema({
   image:{
     type:String,
   },
+  emprendimiento:{
+    type:String,
+  },
   urlDelete:{
      type:String,
   }

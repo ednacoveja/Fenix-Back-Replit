@@ -31,13 +31,14 @@ export const getProductId = async (req, res) => {
 
 export const createProducts = async (req, res) => {
   try {
-    const { name, description, price, type, rating } = req.body
+    const { name, description, price, type, rating,emprendimiento } = req.body
     const newProduct = new Product({
       name,
       description,
       price,
       type,
       rating,
+      emprendimiento,
     })
     if (req.files) {
       const result = await uploadImage(req.files.image.tempFilePath)
