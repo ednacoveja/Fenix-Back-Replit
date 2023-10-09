@@ -1,5 +1,5 @@
 import Product from "../models/Product.js"
-import { uploadImage, deleteImage } from "../utils/cloudinary.js"
+import { uploadImageProducts, deleteImage } from "../utils/cloudinary.js"
 import fs from "fs-extra"
 
 
@@ -41,7 +41,7 @@ export const createProducts = async (req, res) => {
       emprendimiento,
     })
     if (req.files) {
-      const result = await uploadImage(req.files.image.tempFilePath)
+      const result = await uploadImageProducts(req.files.image.tempFilePath)
       newProduct.image = result.secure_url
       newProduct.urlDelete = result.public_id
 
@@ -78,7 +78,7 @@ export const deleteProducts = async (req, res) => {
       message: "Product does not exists"
     })
     if (productDelete.urlDelete) {
-      await deleteImage(productDelete.urlDelete)
+      await deleteImage(productDelete.urlDelete,"fenix-replit/products")
     }
     return res.json(productDelete)
   }

@@ -1,21 +1,23 @@
 import User from "../models/User.js"
+import { uploadImageEmprendimiento, deleteImage } from "../utils/cloudinary.js"
+import fs from "fs-extra"
 
 
 export const getUsers = async (req, res) => {
   try {
-    const { email } = req.query;
+    const { nombre } = req.query;
 
-    if (!email) {
+    if (!nombre) {
       const users = await User.find();
       res.json(users);
     } else {
-      const regex = new RegExp(email, 'i');
+      const regex = new RegExp(nombre, 'i');
 
-      const users = await User.find({ email: regex }).populate('carrito')
+      const users = await User.find({ nombre: regex })
       if (users.length) {
         res.status(200).send(users);
       } else {
-        res.status(404).send("Email not found");
+        res.status(404).send("Nombre not found");
       }
     }
   } catch (error) {
@@ -25,7 +27,7 @@ export const getUsers = async (req, res) => {
 
 export const getUserId = async (req, res) => {
   try {
-    const userId = await User.findById(req.params.id).populate('carrito')
+    const userId = await User.findById(req.params.id)
     if (!userId) return res.satus(404).json({
       message: "User does not exists"
     })
@@ -39,26 +41,20 @@ export const getUserId = async (req, res) => {
 
 export const createUser = async (req, res) => {
   try {
-    const { email, password, firstName, lastName } = req.body;
-    let isAdmin = false;
-    if (email === 'ovejerocande@gmail.com') {
-      isAdmin = true;
-    }ps
+    const { nombre, instagram, description } = req.body;
     const newUser = new User({
-      email,
-      password,
-      firstName,
-      lastName,
+     nombre, 
+     instagram, 
+     description,
     })
-    await newUser.save()
-    
-    if (isAdmin) {
-      const userRecord = await admin.auth().getUserByEmail(email);
-      const uid = userRecord.uid;
-      await admin.auth().setCustomUserClaims(uid, { isAdmin: true });
-      console.log('Usuario actualizado como administrador');
+      if (req.files) {
+      const result = await uploadImageEmprendimiento(req.files.image.tempFilePath)
+      newUser.image = result.secure_url
+      newUser.urlDelete = result.public_id
+
+      await fs.unlink(req.files.image.tempFilePath)
     }
-    
+    await newUser.save()   
     res.json(newUser)
   }
   catch (error) {
@@ -74,8 +70,6 @@ export const updateUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User does not exist" });
     }
-    user.carrito = req.body.carrito;
-
     const userUpdated = await user.save();
     return res.json(userUpdated);
   } catch (error) {
@@ -90,6 +84,9 @@ export const deleteUser = async (req, res) => {
     if (!userDelete) return res.satus(404).json({
       message: "User does not exists"
     })
+     if (userDelete.urlDelete) {
+      await deleteImage(userDelete.urlDelete,"fenix-replit/emprendimiento")
+    }
 
     return res.json(userDelete)
   }
@@ -97,3 +94,4 @@ export const deleteUser = async (req, res) => {
     return res.status(500).json({ message: error.message })
   }
 }
+

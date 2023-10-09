@@ -6,16 +6,17 @@ import {
   updateUser,
   deleteUser
 } from "../controllers/users.js"
-import admin from "firebase-admin"
-
-admin.initializeApp();
+import fileUpload from "express-fileupload"
 
 
 const router = Router()
 
 router.get("/users", getUsers)
 router.get("/users/:id", getUserId)
-router.post("/users", createUser)
+router.post("/users",fileUpload({
+  useTempFiles: true,
+  tempFileDir: "./uploadsUser/"
+}),createUser)
 router.put("/users/:id", updateUser)
 router.delete("/users/:id", deleteUser)
 

@@ -1,13 +1,10 @@
 import mongoose from "mongoose"
 
 const userSchema = mongoose.Schema({
-  emprendimiento: {
+  nombre: {
     type: String,
     required: true,
     unique: true,
-  },
-  telefono: {
-    type: Number,
   },
   instagram: {
     type: String,
@@ -15,15 +12,11 @@ const userSchema = mongoose.Schema({
   description: {
     type: String,
   },
-  image:{
-    type:String,
+  image: {
+    type: String,
   },
-  isAdmin: {
-    type: Boolean,
-    default: false,
-  },
-  urlDelete:{
-     type:String,
+  urlDelete: {
+    type: String,
   }
 }, {
   timestamps: true
