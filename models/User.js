@@ -4,7 +4,6 @@ const userSchema = mongoose.Schema({
   nombre: {
     type: String,
     required: true,
-    unique: true,
   },
   instagram: {
     type: String,

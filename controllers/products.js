@@ -31,7 +31,7 @@ export const getProductId = async (req, res) => {
 
 export const createProducts = async (req, res) => {
   try {
-    const { name, description, price, type, rating,emprendimiento } = req.body
+    const { name, description, price, type, rating, emprendimiento } = req.body
     const newProduct = new Product({
       name,
       description,
@@ -47,6 +47,7 @@ export const createProducts = async (req, res) => {
 
       await fs.unlink(req.files.image.tempFilePath)
     }
+  
     await newProduct.save()
     res.json(newProduct)
   }
@@ -78,7 +79,7 @@ export const deleteProducts = async (req, res) => {
       message: "Product does not exists"
     })
     if (productDelete.urlDelete) {
-      await deleteImage(productDelete.urlDelete,"fenix-replit/products")
+      await deleteImage(productDelete.urlDelete, "fenix-replit/products")
     }
     return res.json(productDelete)
   }

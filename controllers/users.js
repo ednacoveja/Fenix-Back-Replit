@@ -8,12 +8,12 @@ export const getUsers = async (req, res) => {
     const { nombre } = req.query;
 
     if (!nombre) {
-      const users = await User.find();
+      let users = await User.find();
       res.json(users);
     } else {
       const regex = new RegExp(nombre, 'i');
 
-      const users = await User.find({ nombre: regex })
+      let users = await User.find({ nombre: regex })
       if (users.length) {
         res.status(200).send(users);
       } else {
@@ -54,7 +54,8 @@ export const createUser = async (req, res) => {
 
       await fs.unlink(req.files.image.tempFilePath)
     }
-    await newUser.save()   
+    console.log(newUser)
+    await newUser.save() 
     res.json(newUser)
   }
   catch (error) {
@@ -65,7 +66,9 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id);
+    const user = await User.findByIdAndUpdate(id,req.body, {
+      new: true
+    });
 
     if (!user) {
       return res.status(404).json({ message: "User does not exist" });
