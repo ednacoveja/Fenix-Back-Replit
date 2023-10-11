@@ -10,8 +10,8 @@ const productSchema = mongoose.Schema({
   type:{
     type:String,
   },
-  rating:{
-    type:Number,
+  cantidad:{
+    type:String,
   },
   description:{
     type:String,
@@ -26,6 +26,7 @@ const productSchema = mongoose.Schema({
   },
   emprendimiento:{
     type:String,
+    trim:true,
   },
   urlDelete:{
      type:String,

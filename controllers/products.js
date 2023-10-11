@@ -31,13 +31,13 @@ export const getProductId = async (req, res) => {
 
 export const createProducts = async (req, res) => {
   try {
-    const { name, description, price, type, rating, emprendimiento } = req.body
+    const { name, description, price, type, cantidad, emprendimiento } = req.body
     const newProduct = new Product({
       name,
       description,
       price,
       type,
-      rating,
+      cantidad,
       emprendimiento,
     })
     if (req.files) {
